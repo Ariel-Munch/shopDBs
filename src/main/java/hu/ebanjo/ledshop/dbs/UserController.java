@@ -55,7 +55,8 @@ public class UserController {
     public String updateUser(@PathVariable("id") long id, @Valid User user, 
       BindingResult result, Model model) {
         if (result.hasErrors()) {
-            user.setId(id);
+            // user.setId(id);
+            user.id = id;
             return "update-user";
         }
             

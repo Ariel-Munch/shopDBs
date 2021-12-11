@@ -8,12 +8,14 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
+// import lombok.Data;
+// import lombok.NoArgsConstructor;
 
-
-@Data
-// @Builder
+// @Data
+// @NoArgsConstructor;
+@Builder
+@Setter
 @Entity
 public class User {
     
@@ -27,5 +29,4 @@ public class User {
     @NotBlank(message = "Email is mandatory")
     String email;
 
-    public User() {}
 }
