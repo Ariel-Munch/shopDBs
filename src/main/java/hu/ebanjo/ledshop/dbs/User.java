@@ -8,24 +8,24 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Setter
-@ToString
-@Builder
+
+@Data
+// @Builder
 @Entity
 public class User {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    Long id;
     
     @NotBlank(message = "Name is mandatory")
-    private String name;
+    String name;
     
     @NotBlank(message = "Email is mandatory")
-    private String email;
+    String email;
+
+    public User() {}
 }
