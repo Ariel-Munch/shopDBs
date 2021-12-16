@@ -1,4 +1,4 @@
-package hu.ebanjo.ledshop.dbs;
+package hu.ebanjo.ledshop.dbs.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,8 +14,8 @@ import lombok.ToString;
 @ToString
 @Builder
 @Entity
-@Table(name = "Products")
-public class Product {
+@Table(name = "invoices")
+public class Invoice {
     @Id
     Long id;
     String name;
