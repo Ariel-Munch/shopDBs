@@ -2,8 +2,6 @@ package hu.ebanjo.ledshop.dbs.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
@@ -24,23 +22,20 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "properties")
-public class Property {
+public class CodeType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)    
     Long id;
+
     String name;
-    
-    @ManyToOne
-    Product product;
+    Boolean isNumeric ;
+    BigDecimal maxValue ;
+    BigDecimal minValue ;
+    BigDecimal defValue ;
+    Boolean isText ;
+    String  defText ;
+    Boolean isDiscrete ;
 
-    @ManyToOne
-    CodeValue propertyType;
-
-    BigDecimal propertyValue;
-
-    Integer ord;
     LocalDateTime createdAt ;
-
 }

@@ -3,11 +3,9 @@ package hu.ebanjo.ledshop.dbs.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -24,23 +22,24 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "properties")
-public class Property {
+public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)    
     Long id;
-    String name;
-    
-    @ManyToOne
-    Product product;
 
     @ManyToOne
-    CodeValue propertyType;
+    Lang lang;
 
-    BigDecimal propertyValue;
+    @ManyToOne
+    Customer customer;
 
-    Integer ord;
-    LocalDateTime createdAt ;
+    @ManyToOne
+    Shop shop;
 
+    String token;
+
+    LocalDateTime loggedIn;
+    LocalDateTime refreshedAt;
+    LocalDateTime createdAt;
 }
