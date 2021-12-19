@@ -25,7 +25,6 @@ import lombok.ToString;
 public class PropertyIntl {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)    
     Long id;
     String name;
     
@@ -38,6 +37,7 @@ public class PropertyIntl {
     @ManyToOne
     CodeValue propertyType;
 
+    @Column(columnDefinition="TEXT")
     String propertyValue;
 
     Integer ord;

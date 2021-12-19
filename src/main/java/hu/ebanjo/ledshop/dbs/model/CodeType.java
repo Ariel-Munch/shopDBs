@@ -8,8 +8,6 @@ import javax.persistence.GenerationType;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +23,6 @@ import lombok.ToString;
 public class CodeType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)    
     Long id;
 
     String name;

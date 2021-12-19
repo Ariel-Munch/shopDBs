@@ -8,38 +8,29 @@ import javax.persistence.GenerationType;
 
 import java.time.LocalDateTime;
 
-import javax.persistence.Column;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-@ToString
-@Data
+@Data 
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Entity
 public class Shop {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)    
-    Long id;
+    private Long id;
 
     @ManyToOne
-    Lang lang;
+    private Lang lang;
 
     @ManyToOne
-    Currency currency;
+    private Currency currency;
 
-    String name;
+    private String name;
 
     @ManyToOne
-    CodeValue propertyType;
+    private CodeValue propertyType;
 
-    String urlDbApi;
+    private String urlDbApi;
 
-    LocalDateTime createdAt ;
+    private LocalDateTime createdAt ;
 }

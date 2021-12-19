@@ -10,13 +10,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import hu.ebanjo.ledshop.dbs.model.User;
+import hu.ebanjo.ledshop.dbs.repo.UserRepository;
+
 @Controller
-public class UserController {
+public class FormUserController {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
+    public FormUserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
         
@@ -55,7 +58,6 @@ public class UserController {
     public String updateUser(@PathVariable("id") long id, @Valid User user, 
       BindingResult result, Model model) {
         if (result.hasErrors()) {
-            // user.setId(id);
             user.id = id;
             return "update-user";
         }

@@ -3,7 +3,6 @@ package hu.ebanjo.ledshop.dbs.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
@@ -23,7 +22,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "code_values")
 public class CodeValue {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
