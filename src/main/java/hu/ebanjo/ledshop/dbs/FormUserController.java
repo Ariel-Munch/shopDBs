@@ -1,7 +1,8 @@
 package hu.ebanjo.ledshop.dbs;
 
+import hu.ebanjo.ledshop.dbs.model.User;
+import hu.ebanjo.ledshop.dbs.repo.UserRepository;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,8 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import hu.ebanjo.ledshop.dbs.model.User;
-import hu.ebanjo.ledshop.dbs.repo.UserRepository;
+
 
 @Controller
 public class FormUserController {
@@ -58,7 +58,7 @@ public class FormUserController {
     public String updateUser(@PathVariable("id") long id, @Valid User user, 
       BindingResult result, Model model) {
         if (result.hasErrors()) {
-            user.id = id;
+            user.setId(id);
             return "update-user";
         }
             
