@@ -1,33 +1,39 @@
 package hu.ebanjo.ledshop.dbs.model;
 
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import java.time.LocalDateTime;
-import java.util.Set;
 
-import lombok.Data;
-import lombok.Builder;
+//import lombok.Builder;
 
-@Data @Builder
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
 @Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
-    String name;
+    String username;
+    String email;
     String password;
 
-    Integer status;
+    boolean isActive;
+    boolean blocked;
 
-    @OneToMany
-    Set<Customer> shopCustomer;
-    
     LocalDateTime modifiedAt ;
     LocalDateTime createdAt ;
+
+    String resetPasswordToken;
+    String registrationToken;
+
 
 }

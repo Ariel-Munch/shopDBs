@@ -8,10 +8,12 @@ import javax.persistence.GenerationType;
 
 import java.time.LocalDateTime;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 
-@Data 
+@Getter
+@Setter 
 @NoArgsConstructor
 @Entity
 public class Shop {
@@ -27,8 +29,7 @@ public class Shop {
 
     private String name;
 
-    @ManyToOne
-    private CodeValue propertyType;
+    // Ez mi a f@sz???? @ManyToOne     private CodeValue propertyType;
 
     private String urlDbApi;
 

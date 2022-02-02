@@ -1,9 +1,10 @@
 package hu.ebanjo.ledshop.dbs.control;
 
+import hu.ebanjo.ledshop.dbs.model.Customer;
+import hu.ebanjo.ledshop.dbs.repo.CustomerRepository;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import hu.ebanjo.ledshop.dbs.model.Customer;
-import hu.ebanjo.ledshop.dbs.repo.CustomerRepository;
+
 
 @RestController
 @RequestMapping("/customers")
@@ -47,8 +47,12 @@ public class CustomerController {
         public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
             Customer currentCustomer = customerRepository.findById(id).orElseThrow(RuntimeException::new);
             currentCustomer.builder()
-                .name(customer.getName())
-                .build();
+            .firstname(customer.getFirstname())
+            .lastname(customer.getLastname())
+            .address1(customer.getAddress1())
+            .address2(customer.getAddress2())
+            .address3(customer.getAddress3())
+            .build();
             // currentCustomer.setName( customer.getName() );
             // currentCustomer.setUrlDbApi( customer.getUrlDbApi()  );
             currentCustomer = customerRepository.save(customer);

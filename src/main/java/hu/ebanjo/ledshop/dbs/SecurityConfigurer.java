@@ -17,12 +17,15 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.httpBasic()
-            .and()
-            .antMatcher("/**").authorizeRequests().anyRequest().hasRole("USER")
-				.and().formLogin().loginPage("/login.jsp")
-				.failureUrl("/login.jsp?error=1").loginProcessingUrl("/login")
-				.permitAll().and().logout()
-				.logoutSuccessUrl("/listEmployees.html");
+		http.csrf().disable();
+		http.cors();
+		// http.httpBasic()
+            // .and()
+            //.antMatcher("/**").authorizeRequests().anyRequest().hasRole("USER")
+			//	.and().formLogin().loginPage("/login.jsp")
+				//.failureUrl("/login.jsp?error=1").loginProcessingUrl("/login")
+			//	.permitAll().and().logout()
+			//	.logoutSuccessUrl("/listEmployees.html")
+			;
 	}
 }

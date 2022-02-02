@@ -2,11 +2,8 @@ package hu.ebanjo.ledshop.dbs.control;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,12 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import hu.ebanjo.ledshop.dbs.model.Product;
-import hu.ebanjo.ledshop.dbs.model.TermekDTO;
+import hu.ebanjo.ledshop.dbs.model.SearchDTO;
 import hu.ebanjo.ledshop.dbs.repo.ProductRepository;
 
 /* @CrossOrigin(origins= "http://localhost:4200"
@@ -32,62 +28,24 @@ import hu.ebanjo.ledshop.dbs.repo.ProductRepository;
                     , RequestMethod.OPTIONS}  ) */
 @RestController
 @CrossOrigin(origins= "*")
-@RequestMapping("/products")
-public class ProductController {
+@RequestMapping("/prodfilter")
+public class SearchController {
     
         private final ProductRepository productRepository;
     
-        public ProductController(ProductRepository productRepository) {
+        public SearchController(ProductRepository productRepository) {
             this.productRepository = productRepository;
         }
 
         @GetMapping
-        public List<Product> getProducts( ) {
-            return productRepository.findAll();
+        public List<Product> getProducts( @RequestBody SearchDTO fltr ) {
+            return productRepository.findByNameContainingIgnoreCase( fltr.getName() );
+            
         }
-
-        @GetMapping("/termek")
-        public List<TermekDTO> getTermekek( ) {
-            List<TermekDTO> lT = new ArrayList<TermekDTO>();
-            List<Product> prodz = productRepository.findAll();
-            prodz.forEach(p ->  lT.add(mkTermkDTO(p)) );
-            return lT;
-        }
-        @GetMapping("/termek/{id}")
-        public TermekDTO getTermekById( @PathVariable Long id) {
-            Optional<Product> prodz = productRepository.findById(id);
-            return mkTermkDTO( prodz.isPresent() ? prodz.get()  : null) ;
-
-        }
-        private TermekDTO mkTermkDTO(Product p) {
-            return p == null ? null : TermekDTO.builder()
-                .id(p.getId())
-                .descriptionTitle(p.getName())
-            .build();
-        }
-        @GetMapping("/name")
-        public List<Product> getProducts( @RequestParam String nameFilter ) {
-            return productRepository.findByNameContainingIgnoreCase(nameFilter);
-        }
-    
+    /*
         @GetMapping("/{id}")
         public Product getProduct(@PathVariable Long id) {
             return productRepository.findById(id).orElseThrow(RuntimeException::new);
-        }
-        
-        @GetMapping("/cat/{id}")
-        public Product[] getProductByCat(@PathVariable Long categoryId, @RequestParam String nameFilter) {
-            if ( Strings.isEmpty(nameFilter) ) {
-                Optional<Product[]> xxx = productRepository.findByCategoryId(categoryId) ;
-                if (xxx.isPresent())
-                    return  xxx.get();
-            } else {
-                Optional<Product[]> xxx = productRepository.findByCategoryIdAndName(categoryId, nameFilter);
-                if (xxx.isPresent())
-                    return  xxx.get();
-            }
-            return new Product[]{};
-            
         }
     
         @PostMapping
@@ -114,4 +72,6 @@ public class ProductController {
             productRepository.deleteById(id);
             return ResponseEntity.ok().build();
         }    
+
+        */
 }

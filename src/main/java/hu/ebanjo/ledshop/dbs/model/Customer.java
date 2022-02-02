@@ -1,21 +1,24 @@
 package hu.ebanjo.ledshop.dbs.model;
 
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-
-import java.time.LocalDateTime;
-
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
+
+
 @ToString
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -29,10 +32,12 @@ public class Customer {
     Shop shop;
 
     @ManyToOne
+    @JoinColumn(name="user_id", nullable = false)
     User user;
 
-    String name;
-    String email;
+    String firstname;
+    String lastname;
+    
     String address1;
     String address2;
     String address3;

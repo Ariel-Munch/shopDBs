@@ -1,27 +1,31 @@
 package hu.ebanjo.ledshop.dbs.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
+//import javax.persistence.JoinColumn;
+
+
+
+
 
 @ToString
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -30,26 +34,47 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)    
-    Long id;
-    String name;
+    public Long id;
+    public String name;
     String articleNumber;
     
     @ManyToOne
     Category category ;
 
-    @OneToMany (
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
-    )
-    @JoinColumn(name = "product")
+    
+    @OneToMany (cascade = CascadeType.ALL,orphanRemoval = true)
     Set<ProductPicture> pictures ;
 
-    @OneToMany
+    @OneToMany (cascade = CascadeType.ALL,orphanRemoval = true)
+    Set<ProductPicture> smPictures ;
+    
+    @OneToMany (cascade = CascadeType.ALL,orphanRemoval = true)
     Set<Property> properties ;
     
-    @OneToMany
+    @OneToMany (cascade = CascadeType.ALL,orphanRemoval = true)
     Set<PropertyIntl> textProperties ;
 
+    BigDecimal price;
     LocalDateTime createdAt ;
+///
+    String  slug;
+    String  short_desc;
+    BigDecimal sale_price;
+    String  vendor;
+    Integer review;
+    Integer ratings;
+
+    LocalDateTime until ;
+    @ManyToOne
+    User createdBy;
+    @ManyToOne
+    User modifiedBy;
+    LocalDateTime modifiedAt ;
+
+    @OneToMany (cascade = CascadeType.ALL,orphanRemoval = true)
+    Set<Product> variants;
+    
+    @OneToMany (cascade = CascadeType.ALL,orphanRemoval = true)
+    Set<Brand>   brands;
     
 }
