@@ -2,9 +2,12 @@ package hu.ebanjo.ledshop.dbs.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +30,12 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)    
     Long id;
-    String name;
-    String articleNumber;
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    Product product;
+
+    java.math.BigDecimal qty ;
+    java.math.BigDecimal price ;
 }

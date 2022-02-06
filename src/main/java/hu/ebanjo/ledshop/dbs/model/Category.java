@@ -44,5 +44,7 @@ public class Category {
 
     String name;
     String title;
-    Long icoDocId;
+
+    //@Column(nullable = false)    
+    Integer level;
 }

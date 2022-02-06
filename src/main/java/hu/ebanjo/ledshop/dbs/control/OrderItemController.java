@@ -47,7 +47,7 @@ public class OrderItemController {
         public ResponseEntity<OrderItem> updateOrderItem(@PathVariable Long id, @RequestBody OrderItem orderitem) {
             OrderItem currentOrderItem = orderitemRepository.findById(id).orElseThrow(RuntimeException::new);
             currentOrderItem.builder()
-                .name(orderitem.getName())
+                .price(orderitem.getPrice())
                 .build();
             // currentOrderItem.setName( orderitem.getName() );
             // currentOrderItem.setUrlDbApi( orderitem.getUrlDbApi()  );

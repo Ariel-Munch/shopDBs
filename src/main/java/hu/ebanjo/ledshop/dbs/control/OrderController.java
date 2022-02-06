@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import hu.ebanjo.ledshop.dbs.model.Order;
 import hu.ebanjo.ledshop.dbs.repo.OrderRepository;
 
 @RestController
+@CrossOrigin(origins= "*")
 @RequestMapping("/orders")
 public class OrderController {
     
@@ -47,7 +49,7 @@ public class OrderController {
         public ResponseEntity<Order> updateOrder(@PathVariable Long id, @RequestBody Order order) {
             Order currentOrder = orderRepository.findById(id).orElseThrow(RuntimeException::new);
             currentOrder.builder()
-                .name(order.getName())
+                .note(order.getNote())
                 .build();
             // currentOrder.setName( order.getName() );
             // currentOrder.setUrlDbApi( order.getUrlDbApi()  );
