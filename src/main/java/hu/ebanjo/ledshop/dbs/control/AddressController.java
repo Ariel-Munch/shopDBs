@@ -47,7 +47,7 @@ public class AddressController {
         public ResponseEntity<Address> updateAddress(@PathVariable Long id, @RequestBody Address address) {
             Address currentAddress = addressRepository.findById(id).orElseThrow(RuntimeException::new);
             currentAddress.builder()
-                .name(address.getName())
+                .firstName(address.getFirstName())
                 .build();
             // currentAddress.setName( address.getName() );
             // currentAddress.setUrlDbApi( address.getUrlDbApi()  );

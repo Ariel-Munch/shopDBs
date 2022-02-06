@@ -2,8 +2,6 @@ package hu.ebanjo.ledshop.dbs.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
@@ -32,11 +30,6 @@ public class ProductPicture {
     @Column(nullable = false)    
     Long id;
 
-    /*
-    @ManyToOne
-    @JoinColumn(name="product", nullable=false)
-    Product product;*/
-    
     String name;
     String title;
     String url;

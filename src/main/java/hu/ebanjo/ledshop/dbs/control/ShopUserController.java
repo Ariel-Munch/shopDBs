@@ -6,6 +6,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -48,6 +50,7 @@ public class ShopUserController {
 
         @PostMapping("/register")
         public ResponseEntity<User> register(@RequestBody User user) throws URISyntaxException {
+            user.setRegistrationToken( (UUID.randomUUID().toString() + UUID.randomUUID().toString()).replace("-","")  );
             User savedUser = userRepository.save(user);
             return ResponseEntity.created(new URI("/users/" + Long.toString( savedUser.getId() ))).body(savedUser);
         }
@@ -67,12 +70,13 @@ public class ShopUserController {
         public ResponseEntity<User> signInUser( @PathVariable("id") Long userId,  @RequestBody User u) throws URISyntaxException {
 
             User cus = userRepository.findById(userId).orElseThrow(RuntimeException::new);
-            String newPassword = cus.getPassword(); // OLD
-            if ( ! StringUtils.isEmpty( u.getPassword() )) {
-                if (!(u.getPassword().equals(newPassword))) {
+            String password = cus.getPassword(); // OLD
+            if ( StringUtils.hasText( u.getPassword() ) && StringUtils.hasText( u.getResetPasswordToken()  ) 
+            ) {
+                if (!(u.getPassword().equals(password))) {
                     throw new  RuntimeException( "Old password nor matched!") ;
                 }
-                newPassword = u.getResetPasswordToken() ; // NEW Psw holder !!!
+                password = u.getResetPasswordToken() ; // NEW Psw holder !!!
             }
             User updater = User.builder()
             .id(userId)
@@ -80,9 +84,7 @@ public class ShopUserController {
             . lastname(u.getLastname())
             . username(u.getUsername())
             . email(u.getEmail())
-            
-            . password( newPassword )
-
+            . password( password )
             . active(cus.isActive())
             . blocked(cus.isBlocked())
             . modifiedAt( LocalDateTime.now() )

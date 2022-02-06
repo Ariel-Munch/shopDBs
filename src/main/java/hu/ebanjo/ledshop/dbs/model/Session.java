@@ -31,9 +31,6 @@ public class Session {
     Long id;
 
     @ManyToOne
-    Lang lang;
-
-    @ManyToOne
     Customer customer;
 
     @ManyToOne

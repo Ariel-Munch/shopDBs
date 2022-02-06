@@ -1,6 +1,8 @@
 package hu.ebanjo.ledshop.dbs.model;
 
 import java.time.LocalDateTime;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,6 +29,8 @@ public class User {
     String firstname;
     String lastname;
     String username;
+    
+    @Column(unique=true)
     String email;
     String password;
 
