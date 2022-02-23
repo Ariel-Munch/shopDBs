@@ -46,13 +46,13 @@ public class CustomerController {
         @PutMapping("/{id}")
         public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer) {
             Customer currentCustomer = customerRepository.findById(id).orElseThrow(RuntimeException::new);
-            currentCustomer.builder()
-            .firstname(customer.getFirstname())
-            .lastname(customer.getLastname())
-            .address1(customer.getAddress1())
-            .address2(customer.getAddress2())
-            .address3(customer.getAddress3())
-            .build();
+
+            currentCustomer.setBillingAddress(customer.getBillingAddress());
+            currentCustomer.setOtherAddress(customer.getOtherAddress());
+            currentCustomer.setPhone(customer.getPhone());
+            currentCustomer.setShippingAddress(customer.getShippingAddress());
+            currentCustomer.setShop(customer.getShop());
+            currentCustomer.setUser(customer.getUser());
             // currentCustomer.setName( customer.getName() );
             // currentCustomer.setUrlDbApi( customer.getUrlDbApi()  );
             currentCustomer = customerRepository.save(customer);

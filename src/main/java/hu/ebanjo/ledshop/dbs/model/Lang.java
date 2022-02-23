@@ -30,4 +30,6 @@ public class Lang {
     String lang;
     String name;
     LocalDateTime createdAt ;
+    @Column( nullable = false, columnDefinition = "boolean default true")
+    boolean fallback;
 }

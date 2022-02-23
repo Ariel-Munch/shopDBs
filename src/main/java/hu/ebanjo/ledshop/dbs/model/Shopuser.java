@@ -22,18 +22,20 @@ import lombok.ToString;
 @AllArgsConstructor
 @Builder
 @Entity
-public class User {
+public class Shopuser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String firstname;
-    String lastname;
-    String username;
     
     @Column(unique=true)
     String email;
     String password;
+    @Column(unique=true)
+    String username;
 
+    String firstname;
+    String lastname;
+    
     boolean active;
     boolean blocked;
 

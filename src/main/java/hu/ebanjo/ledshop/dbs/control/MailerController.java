@@ -27,8 +27,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import hu.ebanjo.ledshop.dbs.mail.EmailServiceImpl;
-import hu.ebanjo.ledshop.dbs.model.User;
+import hu.ebanjo.ledshop.dbs.mail.EmailService;
+import hu.ebanjo.ledshop.dbs.model.Shopuser;
 import hu.ebanjo.ledshop.dbs.model.MailTemplate;
 import hu.ebanjo.ledshop.dbs.repo.MailTemplateRepository;
 import hu.ebanjo.ledshop.dbs.repo.UserRepository;
@@ -39,10 +39,7 @@ import hu.ebanjo.ledshop.dbs.repo.UserRepository;
 @RequestMapping("/sendmail")
 public class MailerController {
 
-    @Value("${shopmailer.from:noreply@ledsound.hu}") String mailFrom ;
-    
-    @Autowired EmailServiceImpl  mailer;
-    @Autowired private JavaMailSender javaMailSender;
+    @Autowired EmailService  mailer;
 
     @Autowired private UserRepository userRepo ; 
     @Autowired private MailTemplateRepository mailTplRepo ; 
@@ -77,13 +74,13 @@ public class MailerController {
     ) {
         List<MailTemplate> tpls = mailTplRepo.findByCodeNameAndLangId(tplCode, langId);
         if (tpls.size() > 0) {
-            User cus = userRepo.findById(userId).orElseThrow(RuntimeException::new) ;
+            Shopuser cus = userRepo.findById(userId).orElseThrow(RuntimeException::new) ;
 
             String regToken = (UUID.randomUUID().toString() + UUID.randomUUID().toString()).replace("-", "") ;
     
-            sendPrepedRegMail(cus, tpls.get(0), reggServerUrl, regToken);
-    
             cus.setRegistrationToken(regToken);
+            mailer.sendPrepedRegMail(cus, tpls.get(0), reggServerUrl);
+    
             userRepo.save(cus);
             return ResponseEntity.ok(HttpStatus.OK);
         } else {
@@ -93,75 +90,25 @@ public class MailerController {
     @GetMapping("/regg/{id}/{tpl}")
     public ResponseEntity sendReggMail(@PathVariable("id") Long userId,@PathVariable("tpl") Long templateId, @RequestParam("sr") String reggServerUrl ) {
 
-        User cus = userRepo.findById(userId).orElseThrow(RuntimeException::new) ;
+        Shopuser cus = userRepo.findById(userId).orElseThrow(RuntimeException::new) ;
         MailTemplate tpl = mailTplRepo.findById(templateId).orElseThrow(RuntimeException::new) ;
 
         String regToken = (UUID.randomUUID().toString() + UUID.randomUUID().toString()).replace("-", "") ;
 
-        sendPrepedRegMail(cus, tpl, reggServerUrl, regToken);
-
         cus.setRegistrationToken(regToken);
+        mailer.sendPrepedRegMail(cus, tpl, reggServerUrl );
+
         userRepo.save(cus);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
-    private void sendPrepedRegMail(User cus, MailTemplate tpl, String reggServerUrl, String regToken)
-    {
-        
-        String mail_to   = cus.getEmail();
-        String mail_subj = tpl.getSubject();
-        String mail_text = tpl.getText();
-        // Replace ShopUserEmail
-        mail_text = mail_text.replace("[[ShopUserEmail]]", cus.getEmail()  )
-            .replace("[[ShopServerUrl]]", reggServerUrl  )
-            .replace("[[ShopReggToken]]", regToken )
-            .replace("[[ShopAddText]]", "" )
-            .replace("[[ShopUserName]]", StringUtils.hasText(cus.getUsername()) ? cus.getUsername() : "Customer" )
-        ;
-        mailer.sendSimpleMessage(mail_to, mail_subj, mail_text);
-    }
-
     @PostMapping("/regg")
     public ResponseEntity postReggMail( @RequestBody  MailDTO mail ) {
 
-        sendEmail(mail);
+        mailer.sendEmail(mail);
         //sendEmailWithAttachment();
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    void sendEmail(MailDTO dto) {
-
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo(dto.to);
-        msg.setFrom(mailFrom);
-
-        msg.setSubject(dto.subject);
-        msg.setText(dto.text);
-
-        javaMailSender.send(msg);
-
-    }
-
-    void sendEmailWithAttachment() throws MessagingException, IOException {
-
-        MimeMessage msg = javaMailSender.createMimeMessage();
-
-        // true = multipart message
-        MimeMessageHelper helper = new MimeMessageHelper(msg, true);
-        helper.setTo("1@gmail.com");
-
-        helper.setSubject("Testing from Spring Boot");
-
-        // default = text/plain
-        //helper.setText("Check attachment for image!");
-
-        // true = text/html
-        helper.setText("<h1>Check attachment for image!</h1>", true);
-
-        helper.addAttachment("my_photo.png", new ClassPathResource("android.png"));
-
-        javaMailSender.send(msg);
-
-    }    
 }

@@ -66,9 +66,9 @@ public class Product {
 
     LocalDateTime until ;
     @ManyToOne
-    User createdBy;
+    Shopuser createdBy;
     @ManyToOne
-    User modifiedBy;
+    Shopuser modifiedBy;
     LocalDateTime modifiedAt ;
 
     @OneToMany (cascade = CascadeType.ALL,orphanRemoval = true)

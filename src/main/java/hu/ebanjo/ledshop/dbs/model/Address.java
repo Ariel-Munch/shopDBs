@@ -4,6 +4,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Column;
 
 import lombok.AllArgsConstructor;
@@ -38,4 +42,10 @@ public class Address {
     String postcode;
     String phone   ;
 
+    /*
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "customer_id")
+    */
+    Long customerId;
 }

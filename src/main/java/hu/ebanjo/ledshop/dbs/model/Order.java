@@ -39,6 +39,9 @@ public class Order {
     String orderNo;
     String couponcode;
 
+    @OneToOne
+    Customer customer;
+    
     @OneToMany(targetEntity = CartItem.class)
     final Set<CartItem> items = new HashSet<>();
 
@@ -53,5 +56,5 @@ public class Order {
     PAYMODE pay_mode ;
     BigDecimal shippingPrice;
     BigDecimal total;
-    String note ;    
+    String notes ;    
 }
